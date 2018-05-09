@@ -1,0 +1,88 @@
+@startuml
+package "class T"{
+class Motor{
+start();
+shutdown();
+restart();
+incRPM(double rpm);
+decRPM(double rpm);
+getRPM();
+__private data__
+double maxRPM_;
+double minRPM_;
+double RPM;
+}
+
+class Dataframe{
+dataframe();
+dataframe(const stdLLarray<uint8_t, 255>
+void checksum();
+void show() const;
+bool checksumIsCorrect() const;
+__private data__
+const int header = 19;
+int N_byte;
+stdLLarray<uint8_t, 255> datal
+int checksum_;
+void setChecksum();
+}
+
+class Device{
+Device(const std::string &id);
+virtual ~Device() = default;
+const std::string &getID() const;
+virtual void initialise() = 0;
+virtual void reset() = 0;
+virtual void shutdown() = 0;
+__private__
+const std::string ID_;
+}
+
+Motor <|- Device
+Device <|-- Dataframe
+
+class CartVec2D{
+ CartVec2D();
+ CartVec2D(double x, double y);
+ ~CartVec2D();
+ double Get_x();
+ double Get_y();
+ void Set_x(int x);
+ void Set_y(int y);
+ CartVec2D &operator=(const CartVec2D &other) =default;
+ CartVec2D &operator+=(const CartVec2D &rhs);
+ CartVec2D &operator-=(const CartVec2D &rhs);
+ CartVec2D &operator*(double rhs);
+ double length() const;
+ __private data__
+ double x_;
+ double y_;
+ __friend__
+ friend std::ostream& operator<<(std::ostream &os, const CartVec2D &rhs);
+ friend CartVec2D operator+(const CartVec2D &lhs, const CartVec2D &rhs);
+ friend CartVec2D operator-(const CartVec2D &lhs, const CartVec2D &rhs);
+}
+
+class DOFxyRz{
+ DOFxyRz();
+ DOFxyRz(double Rz);
+ ~DOFxyRz() = default;
+ double Get_Rz();
+ void Set_rz(double Rz);
+ DOFxyRz &operator+=(const CartVec2D &rhs);
+ DOFxyRz &operator-=(const CartVec2D &rhs);
+ DOFxyRz &operator+=(const double rhs);
+ DOFxyRz &operator-=(const double rhs);
+ CartVec2D heading() const ;
+ __private data__
+ double Rz;
+ CartVec2D buffer;
+ __friend__
+ friend std::ostream& operator<<(std::ostream &os, const CartVec2D &rhs);
+ friend CartVec2D operator+(const CartVec2D &lhs, const CartVec2D &rhs);
+ friend CartVec2D operator-(const CartVec2D &lhs, const CartVec2D &rhs);
+}
+DOFxyRz <|-- CartVec2D
+}
+
+
