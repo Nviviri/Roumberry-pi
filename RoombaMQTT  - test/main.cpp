@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
    int minorMosquitto{0};
    int revisionMosquitto{0};
 
+   
    string mqttBroker{MQTT_LOCAL_BROKER};
    int mqttBrokerPort{MQTT_LOCAL_BROKER_PORT};
 
